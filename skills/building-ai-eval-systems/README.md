@@ -4,6 +4,25 @@
 
 A reusable Agent Skill and practical framework for designing evaluation systems for production AI products: RAG, tool-using agents, structured extraction, classification, generation, and multi-stage LLM pipelines.
 
+## Trigger model
+
+This is an **on-demand Eval skill**, not a permanent project rule.
+
+Use it when the current task is about creating, repairing, certifying, or diagnosing an AI evaluation system—for example benchmark design, fixture design, release gates, metric interpretation, first-failure attribution, production/eval parity, or regression strategy.
+
+Do **not** load it for ordinary feature development, UI work, local refactors, or unrelated bug fixes just because the repository happens to contain AI components.
+
+```text
+ordinary development
+→ do not load this skill
+
+Eval / benchmark / release-quality task
+→ load SKILL.md
+→ use only the references/templates needed for that task
+```
+
+The `SKILL.md` frontmatter description is the discovery trigger. Supporting references, templates, examples, and pressure tests are progressive disclosure and should not be preloaded by default.
+
 ## Why this exists
 
 Weak AI evaluation often looks like:
@@ -97,6 +116,6 @@ Contribution guidance: [`../../CONTRIBUTING.md`](../../CONTRIBUTING.md).
 
 ## 中文说明
 
-这是一个面向**生产级 AI 产品 Eval 体系设计**的通用 Skill。
+这是一个面向**生产级 AI 产品 Eval 体系设计**的按需 Skill。
 
-它不只问“模型准确率是多少”，而是先判断失败到底发生在输入、检索、上下文、契约、模型、权限、溯源、持久化，还是 Eval 工具本身，再决定应该改 Prompt、模型、RAG 还是后端工程边界。
+只有在“要建立 Eval、设计 benchmark、诊断评测失败、做 release/freeze 认证”等任务出现时才应加载；普通开发不需要读取它。它不只问“模型准确率是多少”，而是先判断失败到底发生在输入、检索、上下文、契约、模型、权限、溯源、持久化，还是 Eval 工具本身，再决定应该改 Prompt、模型、RAG 还是后端工程边界。
