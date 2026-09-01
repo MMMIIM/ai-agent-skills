@@ -9,6 +9,7 @@ The repository is intentionally organized as a multi-skill library: each skill i
 | Skill | Purpose | Status |
 |---|---|---|
 | [`building-ai-eval-systems`](./skills/building-ai-eval-systems/) | Design release-grade evaluation systems for RAG, agents, extraction, generation, and multi-stage LLM products. | v0.1.0 |
+| [`preventing-engineering-drift`](./skills/preventing-engineering-drift/) | Prevent definition, authority, identity, parity, compatibility, and execution-path drift without supervising ordinary local work. | v0.1.0 |
 
 ## Repository principles
 
@@ -26,13 +27,18 @@ ai-agent-skills/
 ├── LICENSE
 ├── CONTRIBUTING.md
 └── skills/
-    └── building-ai-eval-systems/
+    ├── building-ai-eval-systems/
+    │   ├── SKILL.md
+    │   ├── README.md
+    │   ├── references/
+    │   ├── templates/
+    │   ├── examples/
+    │   ├── scripts/
+    │   └── tests/
+    └── preventing-engineering-drift/
         ├── SKILL.md
         ├── README.md
         ├── references/
-        ├── templates/
-        ├── examples/
-        ├── scripts/
         └── tests/
 ```
 
