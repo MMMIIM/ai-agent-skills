@@ -29,6 +29,10 @@ Check only relevant invariants:
 6. **Representation** — preserve exact/canonical data; derived/model-facing forms must not redefine provenance or identity.
 7. **Fallback** — no silent fallback, compatibility alias, or legacy path may hide a contract break unless explicitly governed.
 
+## Runtime identity
+
+Do **not** check runtime continuously. Check once before relying on live/provider/E2E results when runtime-loaded code/config changed, the endpoint/environment changed, observed behavior contradicts current code, or the result will be used for benchmark/freeze/release. Reuse that certification until an invalidating event occurs.
+
 ## Change discipline
 
 When drift is found: locate the **first failure boundary**, choose one primary root cause, make the smallest owner-level fix, replay affected cases, then rerun only impacted layers. Passed layers stay frozen unless new evidence invalidates them.
