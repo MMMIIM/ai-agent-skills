@@ -27,7 +27,25 @@ Common parity surfaces:
 - API DTO ↔ internal canonical contract
 - frontend state ↔ backend state
 - DB metadata ↔ loaded runtime
+- code on disk ↔ running process
+- expected endpoint/runtime ↔ actual endpoint/runtime
 - legacy path ↔ replacement path during migration
+
+## Event-triggered runtime certification
+
+Runtime identity is not a continuous health ritual. Check it only before a result depends on a live process and one of these is true:
+
+- runtime-loaded code, prompt, schema, contract, config, or environment changed;
+- endpoint/base URL, branch, deployment, container, tunnel, or process changed;
+- observed live behavior contradicts the current code;
+- a live/provider/E2E run is about to begin after such a change;
+- the result will become a benchmark, freeze, or release decision.
+
+A cheap check should normally confirm the target endpoint plus `started_at` and/or runtime/build identity. Expand to prompt/schema/contract hashes only when certification requires it or the cheap check disagrees.
+
+Reuse one valid certification inside the same unchanged session/run. Invalidate it only when a relevant runtime change occurs. Do not request `/info` for every fixture or ordinary local edit.
+
+**Rule:** code on disk is not evidence of code in execution. A stale process is a runtime parity failure, not a semantic-model failure.
 
 ## Canonical vs derived representation
 
