@@ -4,17 +4,41 @@ A growing collection of reusable Agent Skills for building, evaluating, and gove
 
 The repository is intentionally organized as a multi-skill library: each skill is self-contained under `skills/<skill-name>/` with its own `SKILL.md`, references, templates, examples, and tests when needed.
 
+## How skill triggering works
+
+These skills are designed for **on-demand discovery**, not continuous execution.
+
+Installing a skill does **not** mean every task should load or run it. The agent/runtime should first compare the current task with the skill's `description` trigger. Only a matching task should load the full `SKILL.md`; deeper references should be opened only when the compact skill says they are needed.
+
+```text
+current task
+   ↓
+match a skill description?
+   ├─ no  → normal work; zero skill overhead
+   └─ yes → load SKILL.md
+               ↓
+          need deeper guidance?
+               ├─ no  → execute compact rules
+               └─ yes → open only relevant reference/template/test
+```
+
+This is intentional **progressive disclosure**: keep common development fast and low-token while making specialized governance available at the moment it becomes useful.
+
+Runtime-specific discovery behavior varies. The trigger descriptions in this repository define the intended activation conditions; they are not a requirement to preload every skill into every task.
+
 ## Skills
 
-| Skill | Purpose | Status |
-|---|---|---|
-| [`building-ai-eval-systems`](./skills/building-ai-eval-systems/) | Design release-grade evaluation systems for RAG, agents, extraction, generation, and multi-stage LLM products. | v0.1.0 |
-| [`preventing-engineering-drift`](./skills/preventing-engineering-drift/) | Prevent definition, authority, identity, parity, compatibility, and execution-path drift without supervising ordinary local work. | v0.1.0 |
+| Skill | Purpose | Intended trigger | Status |
+|---|---|---|---|
+| [`building-ai-eval-systems`](./skills/building-ai-eval-systems/) | Design release-grade evaluation systems for RAG, agents, extraction, generation, and multi-stage LLM products. | Creating, repairing, certifying, or diagnosing an AI Eval/benchmark system. | v0.1.0 |
+| [`preventing-engineering-drift`](./skills/preventing-engineering-drift/) | Prevent definition, authority, identity, parity, compatibility, and execution-path drift without supervising ordinary local work. | Shared concepts/contracts/runtimes/evals/migrations or equivalent paths may diverge. GREEN local work should skip it. | v0.1.0 |
 
 ## Repository principles
 
+- **On-demand over always-on.** Load a skill only when its trigger matches the current task.
 - **Reusable over project-specific.** Skills should encode patterns that generalize across products.
 - **Small skill core, deeper references.** Keep `SKILL.md` focused; move heavy material into `references/`, `templates/`, or `examples/`.
+- **Progressive disclosure.** References are optional depth, not mandatory context for ordinary use.
 - **Production-aware.** Skills should respect runtime identity, contracts, side effects, authority boundaries, and release gates.
 - **Test the skill itself.** Where behavior matters, include pressure tests or checklists that demonstrate the skill changes agent behavior.
 - **No hidden product coupling.** Do not embed private project paths, credentials, customer data, or proprietary identifiers.
@@ -61,7 +85,7 @@ skills/<new-skill-name>/
 └── SKILL.md
 ```
 
-Add references, examples, templates, scripts, or tests only when they materially improve reuse or verification. Then add the skill to the table above.
+The frontmatter `description` should describe **when to use the skill**, not summarize its workflow. Keep the core compact and place optional depth in supporting files. Then add the skill and its intended trigger to the table above.
 
 ## License
 
