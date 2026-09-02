@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/building-ai-eval-systems/experiment.schema.json",
+  "title": "AI Eval Experiment",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "suite",
+    "dataset",
+    "candidate",
+    "evaluation",
+    "execution",
+    "summary",
+    "certification"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "minLength": 1},
+    "experiment_id": {"type": "string", "minLength": 1},
+    "created_at": {"type": ["string", "null"], "format": "date-time"},
+    "suite": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["id", "type", "version"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "type": {"enum": ["CAPABILITY", "REGRESSION"]},
+        "version": {"type": "string", "minLength": 1}
+      }
+    },
+    "dataset": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["id", "version"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "hash": {"type": ["string", "null"]}
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["system_id"],
+      "properties": {
+        "system_id": {"type": "string", "minLength": 1},
+        "build_id": {"type": ["string", "null"]},
+        "runtime_identity": {"type": ["string", "null"]},
+        "provider": {"type": ["string", "null"]},
+        "model": {"type": ["string", "null"]},
+        "prompt_hash": {"type": ["string", "null"]},
+        "schema_hash": {"type": ["string", "null"]},
+        "contract_version": {"type": ["string", "null"]}
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["evaluator_id", "evaluator_version"],
+      "properties": {
+        "evaluator_id": {"type": "string", "minLength": 1},
+        "evaluator_version": {"type": "string", "minLength": 1},
+        "calibration_status": {"enum": ["NOT_REQUIRED", "UNCALIBRATED", "CALIBRATED", "STALE", "UNKNOWN"]}
+      }
+    },
+    "baseline_experiment_id": {"type": ["string", "null"]},
+    "execution": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["mode"],
+      "properties": {
+        "mode": {"enum": ["QUICK", "TARGETED", "CERTIFICATION"]},
+        "provider_budget": {"type": ["integer", "null"], "minimum": 0},
+        "provider_calls": {"type": ["integer", "null"], "minimum": 0},
+        "retry_policy": {"type": ["string", "object", "null"]}
+      }
+    },
+    "case_count": {"type": ["integer", "null"], "minimum": 0},
+    "summary": {"type": "object"},
+    "hard_gates": {"type": "array", "items": {"type": "object"}},
+    "cost": {"type": ["object", "null"]},
+    "first_failure_counts": {"type": ["object", "null"]},
+    "certification": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["status"],
+      "properties": {
+        "status": {"enum": ["PROVISIONAL", "CERTIFIED", "BLOCKED", "INVALID_RUN"]},
+        "reasons": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}
