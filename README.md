@@ -30,7 +30,7 @@ Runtime-specific discovery behavior varies. The trigger descriptions in this rep
 
 | Skill | Purpose | Intended trigger | Status |
 |---|---|---|---|
-| [`building-ai-eval-systems`](./skills/building-ai-eval-systems/) | Design release-grade evaluation systems for RAG, agents, extraction, generation, and multi-stage LLM products. | Creating, repairing, certifying, or diagnosing an AI Eval/benchmark system. | v0.1.0 |
+| [`building-ai-eval-systems`](./skills/building-ai-eval-systems/) | Design repeatable Eval/Experiment systems with failure attribution, comparable baselines, cost-aware execution, evaluator calibration, and release gates. | Creating, repairing, comparing, certifying, or diagnosing an AI Eval/benchmark/Experiment system. | v0.2.0 |
 | [`preventing-engineering-drift`](./skills/preventing-engineering-drift/) | Prevent definition, authority, identity, parity, compatibility, and execution-path drift without supervising ordinary local work. | Shared concepts/contracts/runtimes/evals/migrations or equivalent paths may diverge. GREEN local work should skip it. | v0.1.0 |
 
 ## Repository principles
@@ -39,7 +39,8 @@ Runtime-specific discovery behavior varies. The trigger descriptions in this rep
 - **Reusable over project-specific.** Skills should encode patterns that generalize across products.
 - **Small skill core, deeper references.** Keep `SKILL.md` focused; move heavy material into `references/`, `templates/`, or `examples/`.
 - **Progressive disclosure.** References are optional depth, not mandatory context for ordinary use.
-- **Production-aware.** Skills should respect runtime identity, contracts, side effects, authority boundaries, and release gates.
+- **Production-aware.** Skills should respect runtime identity, contracts, side effects, authority boundaries, experiment comparability, and release gates.
+- **Cost-aware.** Use the cheapest valid evaluation depth; do not turn every local change into a full live certification run.
 - **Test the skill itself.** Where behavior matters, include pressure tests or checklists that demonstrate the skill changes agent behavior.
 - **No hidden product coupling.** Do not embed private project paths, credentials, customer data, or proprietary identifiers.
 
