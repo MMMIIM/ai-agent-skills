@@ -4,6 +4,8 @@
 
 - product capability under test:
 - decision this Eval must support:
+- suite type: CAPABILITY / REGRESSION
+- execution mode: QUICK / TARGETED / CERTIFICATION
 - out of scope:
 
 ## 2. Production path
@@ -18,15 +20,18 @@ User-visible result
 For each stage mark:
 - deterministic or semantic;
 - owner/module;
-- Provider call yes/no;
+- Provider/model/tool call yes/no;
 - persistence side effect;
 - authority/policy gate;
 - human approval gate.
 
-## 3. Eval contract
+## 3. Experiment contract
 
-- dataset/gold version:
-- evaluator version/revision:
+- experiment_id:
+- baseline_experiment_id:
+- suite id/version:
+- dataset/gold version/hash:
+- evaluator version/revision/calibration status:
 - runtime/build identity:
 - production input resolver identity:
 - prompt/instruction identity:
@@ -34,7 +39,6 @@ For each stage mark:
 - provider/model:
 - retry policy:
 - provenance/source identity:
-- run_id:
 
 ## 4. Fixture matrix
 
@@ -48,15 +52,23 @@ For each stage mark:
 | Unauthorized / reference-only | | |
 | Cross-scope isolation | | |
 
-Freeze fixtures before Provider calls.
+Freeze fixtures before live Provider calls.
 
-## 5. Evaluation pyramid
+## 5. Trial policy
+
+- deterministic/stable cases default trials: 1
+- repeated-trial case selectors:
+- repeated trial count:
+- stability metric:
+- why repetition is necessary:
+
+## 6. Evaluation pyramid
 
 ### Layer A — contract / deterministic
 - tests:
 - pass gate:
 
-### Layer B — retrieval / context / routing
+### Layer B — retrieval / context / routing / tools
 - tests:
 - pass gate:
 
@@ -72,9 +84,11 @@ Freeze fixtures before Provider calls.
 - tests:
 - pass gate:
 
-## 6. Metrics
+## 7. Metrics
 
 ### Quality
+
+### Stability / repeated trials
 
 ### Safety / authority
 
@@ -84,33 +98,36 @@ Freeze fixtures before Provider calls.
 
 ### Latency / cost
 
+### Evaluator quality when model-based grading is used
+
 ### Product utility
 
-## 7. Hard gates
+## 8. Hard gates
 
 | Gate | Threshold | Owner | Release consequence |
 |---|---|---|---|
 | | | | |
 
-## 8. Provider budget
+## 9. Provider budget
 
 - maximum attempts:
 - retry policy:
-- call ledger path:
-- single-run lock:
+- call ledger/accounting path:
+- single-run lock when needed:
 - stop conditions:
 
-## 9. Persistence policy
+## 10. Persistence policy
 
-- expected DB writes:
-- pre-run counts:
-- post-run counts:
+- expected writes/side effects:
+- pre-run state/counts:
+- post-run state/counts:
 - cleanup policy:
 
-## 10. Failure handling
+## 11. Failure handling
 
 For every failure capture:
 - case_id;
+- trial_id;
 - first failure stage;
 - cause code;
 - Provider reached;
@@ -118,14 +135,25 @@ For every failure capture:
 - safe diagnostic;
 - final outcome.
 
-## 11. Certification
+## 12. Baseline comparison
+
+- fixed cases:
+- regressed cases:
+- unchanged pass/fail:
+- new blocked/invalid cases:
+- hard-gate delta:
+- latency/cost delta:
+- material identity differences:
+
+## 13. Certification
 
 - current state: PROVISIONAL / CERTIFIED / BLOCKED / INVALID_RUN
 - certification prerequisites:
+- evaluator calibration prerequisite when applicable:
 
-## 12. Change policy
+## 14. Change policy
 
-During the benchmark:
+During a governed Experiment:
 - production code changes allowed: NO by default;
 - prompt/model changes allowed: NO by default;
 - auto-fix allowed: NO;
