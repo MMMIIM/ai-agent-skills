@@ -18,9 +18,15 @@ REQUIRED = [
     "references/metric-taxonomy.md",
     "references/pressure-tests.md",
     "references/release-gates.md",
+    "references/experiment-system.md",
+    "references/evaluator-calibration.md",
+    "references/online-eval-loop.md",
     "templates/eval-plan-template.md",
     "templates/failure-taxonomy-template.md",
     "templates/provider-call-ledger.schema.json",
+    "templates/experiment.schema.json",
+    "templates/suite.schema.json",
+    "templates/case-result.schema.json",
     "examples/rag-eval-example.md",
     "examples/agent-eval-example.md",
     "examples/extraction-eval-example.md",
@@ -34,6 +40,8 @@ PROJECT_SPECIFIC_PATTERNS = [
     r"requirement_evidence",
     r"[A-Za-z]:\\",
 ]
+
+MAX_SKILL_WORDS = 900
 
 
 def fail(message: str) -> None:
@@ -67,9 +75,20 @@ def validate_frontmatter() -> None:
         fail("description should remain concise (<=500 chars)")
 
 
+def validate_core_size() -> None:
+    text = SKILL.read_text(encoding="utf-8")
+    body = text.split("\n---\n", 1)[1] if "\n---\n" in text else text
+    words = re.findall(r"\b[\w@/-]+\b", body)
+    if len(words) > MAX_SKILL_WORDS:
+        fail(f"SKILL.md core is too large: {len(words)} words > {MAX_SKILL_WORDS}")
+
+
 def validate_json() -> None:
-    path = ROOT / "templates/provider-call-ledger.schema.json"
-    json.loads(path.read_text(encoding="utf-8"))
+    for path in sorted((ROOT / "templates").glob("*.json")):
+        try:
+            json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            fail(f"invalid JSON in {path.relative_to(ROOT)}: {exc}")
 
 
 def validate_generic_content() -> None:
@@ -87,9 +106,10 @@ def validate_generic_content() -> None:
 def main() -> None:
     validate_structure()
     validate_frontmatter()
+    validate_core_size()
     validate_json()
     validate_generic_content()
-    print("PASS: skill structure, frontmatter, JSON, and generic-content checks")
+    print("PASS: skill structure, frontmatter, core size, JSON, and generic-content checks")
 
 
 if __name__ == "__main__":
