@@ -1,30 +1,34 @@
 # AI Eval Checkpoint Template
 
-## RUN IDENTITY
-- run_id:
-- dataset/gold version:
-- evaluator version/hash:
+## EXPERIMENT IDENTITY
+- experiment_id:
+- baseline_experiment_id:
+- suite id/type/version: CAPABILITY / REGRESSION
+- dataset/gold version/hash:
+- evaluator version/hash/calibration status:
 - runtime/build identity:
 - production contract/schema identity:
 - prompt/instruction identity:
 - provider/model:
 - retry policy:
 - source/provenance identity:
+- execution mode: QUICK / TARGETED / CERTIFICATION
 - certification state: PROVISIONAL / CERTIFIED / BLOCKED / INVALID_RUN
 
 ## SCOPE
 - system path under test:
-- data/project/tenant scope:
+- data/project/tenant scope when applicable:
 - cases:
+- repeated-trial cases and trial count:
 - excluded phases:
-- DB write policy:
+- write/side-effect policy:
 - Provider call budget:
 
 ## PHASE SCORECARD
 | Phase | Cases | Pass | Fail | Hard Fail | Provider Reached |
 |---|---:|---:|---:|---:|---:|
 | Deterministic boundary | | | | | |
-| Retrieval/context | | | | | |
+| Retrieval/context/tools | | | | | |
 | Semantic/model | | | | | |
 | Canonicalization/persistence | | | | | |
 | E2E | | | | | |
@@ -32,19 +36,30 @@
 ## QUALITY
 - primary quality metric:
 - secondary metrics:
-- usability metric:
+- repeated-trial stability metric when applicable:
+- product/usability metric:
+
+## BASELINE COMPARISON
+- fixed cases:
+- regressed cases:
+- unchanged pass:
+- unchanged fail:
+- newly blocked/invalid:
+- hard-gate delta:
+- latency/cost delta:
 
 ## HARD GATES
-- scope/tenant violations:
+- scope/privacy violations:
 - authority contamination:
 - provenance failures:
-- unsupported facts/hallucinations:
-- approval bypass:
-- unexpected DB mutation:
+- unsupported high-risk facts/hallucinations:
+- approval/policy bypass:
+- unauthorized or unexpected persistent mutation:
 
 ## FIRST FAILURES
 For each failure:
 - case_id:
+- trial_id:
 - stage:
 - boundary:
 - cause_code:
@@ -57,15 +72,16 @@ For each failure:
 - attempts:
 - successes:
 - retries:
-- call-ledger complete:
+- call accounting complete:
 - latency min/mean/P50/P95/max:
 - prompt/input tokens:
 - completion/output tokens:
 - estimated/actual cost:
 
-## DB / SIDE EFFECT
-- pre counts:
-- post counts:
+## SIDE EFFECTS
+- expected mutations:
+- pre state/counts:
+- post state/counts:
 - unexpected delta:
 
 ## PRIMARY ROOT CAUSE
