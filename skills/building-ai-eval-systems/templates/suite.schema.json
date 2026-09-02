@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/building-ai-eval-systems/suite.schema.json",
+  "title": "AI Eval Suite",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "suite_id", "version", "type", "dataset", "cases", "metrics", "hard_gates"],
+  "properties": {
+    "schema_version": {"type": "string", "minLength": 1},
+    "suite_id": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "minLength": 1},
+    "type": {"enum": ["CAPABILITY", "REGRESSION"]},
+    "description": {"type": ["string", "null"]},
+    "dataset": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["id", "version"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "hash": {"type": ["string", "null"]}
+      }
+    },
+    "default_execution_mode": {"enum": ["QUICK", "TARGETED", "CERTIFICATION"]},
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["case_id"],
+        "properties": {
+          "case_id": {"type": "string", "minLength": 1},
+          "tags": {"type": "array", "items": {"type": "string"}},
+          "risk": {"enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]},
+          "default_trials": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["id"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "target": {"type": ["number", "integer", "string", "null"]},
+          "direction": {"enum": ["HIGHER_IS_BETTER", "LOWER_IS_BETTER", "EXACT", "NONE"]}
+        }
+      }
+    },
+    "hard_gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["id", "consequence"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "consequence": {"enum": ["BLOCK", "REVIEW"]},
+          "scope": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "operational_gates": {"type": "array", "items": {"type": "object"}},
+    "graduation_policy": {"type": ["object", "null"]}
+  }
+}
