@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/building-ai-eval-systems/case-result.schema.json",
+  "title": "AI Eval Case Result",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["case_id", "trial_id", "status", "scores", "hard_fails", "first_failure"],
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "trial_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["PASS", "FAIL", "BLOCKED", "ERROR", "INVALID"]},
+    "scores": {"type": "object"},
+    "hard_fails": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["code"],
+        "properties": {
+          "code": {"type": "string", "minLength": 1},
+          "message": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "first_failure": {
+      "type": ["object", "null"],
+      "additionalProperties": true,
+      "properties": {
+        "stage": {"type": ["string", "null"]},
+        "boundary": {"type": ["string", "null"]},
+        "cause_code": {"type": ["string", "null"]},
+        "class": {
+          "enum": [
+            "DETERMINISTIC_BOUNDARY",
+            "SEMANTIC_QUALITY",
+            "SCHEMA_CONTRACT",
+            "AUTHORITY_SAFETY",
+            "PROVENANCE",
+            "TRANSPORT_PROVIDER",
+            "AVAILABILITY",
+            "PERSISTENCE",
+            "EVAL_HARNESS",
+            null
+          ]
+        },
+        "retry_eligible": {"type": ["boolean", "null"]}
+      }
+    },
+    "provider": {
+      "type": ["object", "null"],
+      "additionalProperties": true,
+      "properties": {
+        "reached": {"type": ["boolean", "null"]},
+        "calls": {"type": ["integer", "null"], "minimum": 0},
+        "retries": {"type": ["integer", "null"], "minimum": 0}
+      }
+    },
+    "cost": {
+      "type": ["object", "null"],
+      "additionalProperties": true,
+      "properties": {
+        "latency_ms": {"type": ["number", "null"], "minimum": 0},
+        "input_tokens": {"type": ["integer", "null"], "minimum": 0},
+        "output_tokens": {"type": ["integer", "null"], "minimum": 0},
+        "currency": {"type": ["string", "null"]},
+        "amount": {"type": ["number", "null"], "minimum": 0}
+      }
+    },
+    "trace_ref": {"type": ["string", "null"]},
+    "output_ref": {"type": ["string", "null"]},
+    "notes": {"type": ["string", "null"]}
+  }
+}
